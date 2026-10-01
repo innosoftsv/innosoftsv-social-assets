@@ -6,34 +6,35 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
-  html,body { width:1200px; height:627px; overflow:hidden; }
+  html,body { width:1080px; height:1350px; overflow:hidden; }
   body {
     font-family: 'IBM Plex Sans', Arial, sans-serif;
-    background: #5B21B6;
+    background: #bf3f24;
     color: #fff;
-    padding: 48px 64px;
+    padding: 72px 64px 0;
     display:flex;
     flex-direction:column;
   }
-  .topbar { display:flex; align-items:center; gap:12px; }
-  .topbar img { height:36px; width:36px; object-fit:contain; display:block; }
-  .wordmark { font-family:'IBM Plex Sans'; font-weight:700; font-size:24px; color:#fff; }
-  .kicker { font-family:'IBM Plex Mono'; font-weight:500; font-size:20px; color:#d9c9ff; margin-top: 28px; }
-  .headline { font-family:'IBM Plex Sans Condensed'; font-weight:700; font-size:50px; line-height:1.08; color:#fff; margin-top: 10px; max-width: 760px; }
-  .items { display:flex; gap:40px; margin-top: 36px; }
-  .item { flex:1; }
-  .item .num { font-family:'IBM Plex Mono'; font-weight:600; font-size:30px; color:#ffb26b; }
-  .item .label { font-family:'IBM Plex Sans'; font-weight:500; font-size:24px; line-height:1.35; color:#fff; margin-top: 8px; }
+  .topbar { display:flex; align-items:center; gap:14px; }
+  .topbar img { height:44px; width:44px; object-fit:contain; display:block; }
+  .wordmark { font-family:'IBM Plex Sans'; font-weight:700; font-size:28px; color:#fff; }
+  .kicker { font-family:'IBM Plex Mono'; font-weight:500; font-size:26px; color:#fff; margin-top: 48px; }
+  .headline { font-family:'IBM Plex Sans Condensed'; font-weight:700; font-size:66px; line-height:1.1; color:#fff; margin-top: 14px; max-width: 880px; }
+  .items { display:flex; flex-direction:column; gap:36px; margin-top: 56px; }
+  .item { display:flex; gap:24px; align-items:flex-start; border-top: 1px solid rgba(255,255,255,.35); padding-top: 32px; }
+  .item:first-child { border-top: none; padding-top: 0; }
+  .item .num { font-family:'IBM Plex Mono'; font-weight:600; font-size:40px; color:#fff; flex-shrink:0; width: 90px; }
+  .item .label { font-family:'IBM Plex Sans'; font-weight:500; font-size:34px; line-height:1.35; color:#fff; }
   .spacer { flex:1; }
-  .bottom { display:flex; align-items:center; justify-content:space-between; }
-  .cta { font-family:'IBM Plex Sans'; font-weight:600; font-size:26px; color:#ffb26b; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px; }
-  .locations { font-family:'IBM Plex Mono'; font-weight:500; font-size:18px; color:#d9c9ff; }
+  .bottom { background:#96311c; margin: 0 -64px; padding: 44px 64px; display:flex; align-items:center; justify-content:space-between; }
+  .cta { font-family:'IBM Plex Sans'; font-weight:600; font-size:38px; color:#fff; text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 8px; }
+  .locations { font-family:'IBM Plex Mono'; font-weight:500; font-size:24px; color:#fff; text-align:right; }
 </style>
 </head>
 <body>
   <div class="topbar">
     <img src="../og-icon.png" alt="InnoSoft">
-    <div class="wordmark">InnoSoft</div>
+    <div class="wordmark">InnoSoftSV</div>
   </div>
   <div class="kicker">nuevo servicio</div>
   <div class="headline">Tu negocio también necesita presencia real en internet</div>
