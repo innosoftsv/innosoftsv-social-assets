@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html,body { width:1080px; height:1350px; overflow:hidden; }
+  body {
+    font-family: 'IBM Plex Sans', Arial, sans-serif;
+    background: #12151a;
+    color: #f3f3ef;
+    display:flex;
+    position:relative;
+  }
+  .brandmark { position:absolute; top:56px; left:56px; display:flex; align-items:center; gap:12px; }
+  .brandmark img { height:44px; width:44px; object-fit:contain; display:block; }
+  .brandmark .wordmark { font-family:'IBM Plex Sans'; font-weight:700; font-size:26px; color:#f3f3ef; }
+  .left {
+    width: 460px; padding: 64px 0 64px 56px;
+    display:flex; flex-direction:column; justify-content:center;
+  }
+  .day { font-family:'IBM Plex Serif'; font-weight:700; font-size:280px; line-height:0.9; color:#ffb26b; }
+  .monthyear { font-family:'IBM Plex Serif'; font-weight:600; font-size:72px; line-height:1.1; color:#f3f3ef; margin-top: 12px; }
+  .right {
+    flex:1; padding: 72px 56px 64px 32px;
+    display:flex; flex-direction:column;
+  }
+  .kicker { font-family:'IBM Plex Mono'; font-weight:500; font-size:24px; color:#9a9fa8; }
+  .headline { font-family:'IBM Plex Sans'; font-weight:600; font-size:66px; line-height:1.18; color:#f3f3ef; margin-top: 24px; }
+  .headline .accent { color: #ffb26b; }
+  .support { font-family:'IBM Plex Sans'; font-weight:400; font-size:32px; line-height:1.5; color:#9a9fa8; margin-top: 32px; max-width: 560px; }
+  .spacer { flex:1; }
+  .cta { font-family:'IBM Plex Sans'; font-weight:600; font-size:36px; color:#ffb26b; text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 8px; }
+  .locations { font-family:'IBM Plex Mono'; font-weight:500; font-size:24px; color:#9a9fa8; margin-top: 24px; }
+</style>
+</head>
+<body>
+  <div class="brandmark">
+    <img src="../og-icon.png" alt="InnoSoft">
+    <div class="wordmark">InnoSoft</div>
+  </div>
+  <div class="left">
+    <div class="day">1</div>
+    <div class="monthyear">dic<br>2026</div>
+  </div>
+  <div class="right">
+    <div class="kicker">facturación electrónica</div>
+    <div class="headline">Cambia la normativa <span class="accent">DTE 2.0</span> de Hacienda</div>
+    <div class="support">Si tu negocio en zona oriental ya factura electrónicamente, confirmá que tu sistema esté listo. Si todavía no, te ayudamos a prepararte con tiempo.</div>
+    <div class="spacer"></div>
+    <div class="cta">Consultá si te aplica →</div>
+    <div class="locations">San Miguel · La Unión · Usulután · Morazán</div>
+  </div>
+</body>
+</html>

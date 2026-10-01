@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html,body { width:1080px; height:1350px; overflow:hidden; }
+  body {
+    font-family: 'IBM Plex Sans', Arial, sans-serif;
+    background: #f3f3ef;
+    color: #12151a;
+    padding: 72px 64px;
+    display:flex;
+    flex-direction:column;
+  }
+  .topbar { display:flex; align-items:center; gap:14px; }
+  .topbar img { height:40px; width:auto; display:block; }
+  .wordmark { font-family:'IBM Plex Sans'; font-weight:700; font-size:28px; color:#12151a; }
+  .rule { width:48px; height:1px; background:#12151a; opacity:.5; margin: 40px 0 16px; }
+  .kicker { font-family:'IBM Plex Mono'; font-weight:500; font-size:26px; color:#585d66; }
+  .figure-row { display:flex; align-items:baseline; gap:18px; margin-top: 12px; }
+  .figure { font-family:'IBM Plex Serif'; font-weight:700; font-size:220px; line-height:1; color:#12151a; }
+  .figure-unit { font-family:'IBM Plex Sans'; font-weight:500; font-size:44px; color:#585d66; }
+  .figure-caption { font-family:'IBM Plex Sans'; font-weight:400; font-size:36px; color:#585d66; margin-top: 8px; max-width: 820px; }
+  .tickets { margin-top: 56px; border-top: 1px solid rgba(18,21,26,.15); }
+  .ticket-row { display:flex; align-items:baseline; padding: 22px 0; border-bottom: 1px solid rgba(18,21,26,.15); }
+  .ticket-row .label { font-family:'IBM Plex Sans'; font-weight:500; font-size:34px; color:#12151a; white-space:nowrap; }
+  .ticket-row .dots { flex:1; border-bottom: 3px dotted #9a9a9a; margin: 0 16px; transform: translateY(-10px); }
+  .ticket-row .amount { font-family:'IBM Plex Mono'; font-weight:600; font-size:34px; color:#12151a; white-space:nowrap; }
+  .headline { font-family:'IBM Plex Sans'; font-weight:600; font-size:52px; line-height:1.25; color:#12151a; margin-top: 56px; max-width: 880px; }
+  .spacer { flex:1; }
+  .bottom { display:flex; align-items:center; justify-content:space-between; }
+  .cta { font-family:'IBM Plex Sans'; font-weight:600; font-size:38px; color:#5B21B6; text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 8px; }
+  .locations { font-family:'IBM Plex Mono'; font-weight:500; font-size:26px; color:#585d66; text-align:right; }
+</style>
+</head>
+<body>
+  <div class="topbar">
+    <img src="../og-icon.png" alt="InnoSoft">
+    <div class="wordmark">InnoSoft</div>
+  </div>
+  <div class="rule"></div>
+  <div class="kicker">innosoft · facturación electrónica</div>
+  <div class="figure-row">
+    <div class="figure">$9.99</div>
+    <div class="figure-unit">/mes<br>desde</div>
+  </div>
+  <div class="figure-caption">Plan solo facturación electrónica — sin ERP, sin cotización a ciegas.</div>
+  <div class="tickets">
+    <div class="ticket-row">
+      <span class="label">Sistema completo + DTE</span>
+      <span class="dots"></span>
+      <span class="amount">$32/mes</span>
+    </div>
+    <div class="ticket-row">
+      <span class="label">Solo facturación (DTE)</span>
+      <span class="dots"></span>
+      <span class="amount">$9.99/mes</span>
+    </div>
+  </div>
+  <div class="headline">Ya tenés precio real, sin cotización a ciegas.</div>
+  <div class="spacer"></div>
+  <div class="bottom">
+    <div class="cta">Escribinos →</div>
+    <div class="locations">San Miguel · La Unión<br>Usulután · Morazán</div>
+  </div>
+</body>
+</html>

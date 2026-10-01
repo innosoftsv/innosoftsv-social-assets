@@ -4,36 +4,66 @@ Created 2026-09-09 after the user rightly pointed out that raw screenshots don't
 
 **Why HTML/CSS instead of an AI image generator** (explicit decision, see the 2026-09-09 conversation): an AI generator is exactly where the problems we want to avoid show up — badly written text, illogical elements, a "generated" look. A code template doesn't carry that risk — it either renders correctly or it doesn't. It also doesn't depend on any paid external quota/service — it can be generated as many times as needed, for free. It still complies with the hard rule in `../politica-imagenes-ia.md`: this isn't an AI-image case, it's real design + a real screenshot.
 
-## The 3 templates
+## 2026-10-01 — system redesign: "documento, no sección de hero" (read this first)
 
-1. **`hero-con-captura.html`** — headline + subheadline + real screenshot inside a browser mockup (bar with 3 dots + label) + CTA button + zone. Uses `.mockup-crop { height: Npx; overflow:hidden }` to crop the screenshot from the top (avoids showing zeroed-out figures that tend to sit further down in the real dashboard).
-2. **`hero-con-captura-recorte-lateral.html`** — same as above, but for screenshots where what matters is off to one side (e.g. a value panel next to a login form). Uses `background-image` + `background-size`/`background-position` instead of `<img>` to crop with pixel precision from any edge — more control than `object-fit`.
-3. **`tipografico-sin-captura.html`** — no mockup or screenshot, just a large headline + subheadline + CTA. Use when there's no real screenshot that reinforces the message without feeling forced (e.g. educational/awareness messages) — better to be honest and skip a mockup that adds nothing than to fabricate content or show a screen with errors/half-configured states.
+**The old system (one dark-gradient hero template, only the bg/accent color rotated) was retired after the user flagged it directly: "estás usando el mismo patrón para todas las publicaciones, la misma paleta de colores, parece generado por IA. Debes ser creativo."** A design review (via the `innosoft-design` agent) confirmed the real cause wasn't the color choice — it was that every piece was the identical composition (logo top-left, badge top-right, uppercase tag repeating the headline, big headline with 1-2 accent words, pill-shaped gradient CTA, aurora-glow dark background). That's the default "hero section pasted into a square" shape any generic generator produces. Full root-cause list (worth re-reading before adding a 4th archetype): emoji render as a blurry blob in Playwright's output, the pill CTA is a fake unclickable UI control sitting inside a feed image, the uppercase tag/headline redundancy is filler-not-editing, and the single system font (`Segoe UI`) didn't match the real site's IBM Plex — someone clicking from a post landed on a site that looked like a different company.
 
-## Brand tokens (always reuse, never invent new colors unless the user asks)
-- Logo: **use the real file `../logo-header.png`** (`<img src="../logo-header.png">`, ~52px tall) — never a CSS gradient square as a placeholder. Fixed 2026-09-17: the user pointed out the gradient square "feels too AI-generated"; the real logo already exists in `assets/branding/` (also `og-icon.png` 400×400 if only the square icon is needed, and `logo-footer.png`).
-- Text: white `#fff` (headlines), `#cfc3e8`/`#b7a9d6` (subheadlines/secondary).
-- Canvas size: **1080×1080px** (works for Facebook and Instagram without odd cropping).
-- **Background: vary between posts, never repeat the same one every time** (correction 2026-09-17, the user noticed every image looked the same). Authorized background palettes, alternate depending on the post:
-  - **Violet (original):** `radial-gradient(circle at 85% 15%, rgba(255,178,107,0.35) 0%, rgba(255,178,107,0) 40%), radial-gradient(circle at 10% 90%, rgba(124,58,237,0.35) 0%, rgba(124,58,237,0) 45%), linear-gradient(160deg, #0d0620 0%, #170a30 55%, #0d0620 100%)`.
-  - **Teal (added 2026-09-17):** `radial-gradient(circle at 85% 15%, rgba(255,178,107,0.4) 0%, rgba(255,178,107,0) 42%), radial-gradient(circle at 8% 92%, rgba(20,184,166,0.35) 0%, rgba(20,184,166,0) 45%), linear-gradient(160deg, #041b1a 0%, #0a2e2a 55%, #06120f 100%)`.
-  - When adding a new palette, keep the coral glow in the top-right corner (constant visual identity) and only vary the base `linear-gradient` + the second glow.
+**New direction: posts are documents/posters that borrow the site's own real identity, not a separate "dark mode for social" aesthetic.** Reuses tokens already live in production (`F:\Dev\innosoft-landing\src\app\globals.css`, `pdf.service.ts`), never invented:
 
-**Accent/CTA — two authorized variants, pick based on need:**
-- **Lavender (original, 2026-09-09):** `linear-gradient(135deg, #c4a4f5, #7c3aed)`, radial glows in `rgba(196,164,245,*)`/`rgba(124,58,237,*)`, accent text `#d4c1f9`. "Premium/tech" look — use if the post already looks good this way, no reason to change it.
-- **Coral/amber (high contrast, added 2026-09-14 at the user's request):** `linear-gradient(135deg, #ffb26b, #ff5f6d)`, radial glow in `rgba(255,178,107,0.35)`, accent text `#ffb26b`. Reason: the user pointed out that lavender on a purple background doesn't stand out enough in-feed — coral/amber gives much more contrast against the dark background without losing the identity (same background, same logo). **Use this variant by default on new posts** until told otherwise; lavender stays available for cases where a more sober tone is preferred (e.g. very formal LinkedIn, though coral's first use was already on LinkedIn without issue).
+| Surface | Background | Text / accent (measured contrast) | Use for |
+|---|---|---|---|
+| **Papel** (paper) | `#f3f3ef` | ink `#12151a` 16.4:1 · secondary `#585d66` 5.9:1 · stamp `#bf3f24` 4.77:1 (≥40px only) · violet `#5B21B6` 8.06:1 | Price/hard-figure pieces |
+| **Tinta** (ink) | `#12151a` | `#f3f3ef` · secondary `#9a9fa8` 6.9:1 · coral `#ffb26b` 10.3:1 | Dates, regulatory deadlines |
+| **Noche violeta** (the old dark bg, glows removed) | `#0d0620` | white · `#cfc3e8` · coral `#ffb26b` 11.2:1 | Awareness/question posts |
+| **Violeta pleno** (the real invoice-PDF ink color) | `#5B21B6` | white 8.97:1 · coral 5.05:1 (large text only) | New-service announcements |
+| **Verde azulado** (Couriera's own brand, `#0d7c85`/`#2ab7c2`) | flat, no gradient | white · `#2ab7c2` | **Couriera posts only** — this is a different product's color, never a "second background option" for ERP/DTE posts (that mixing was a real mistake in the old system) |
 
-## Mandatory QA checklist before publishing ANY image (hard rule, 2026-09-17)
+Typography: **IBM Plex Serif/Sans/Sans Condensed/Mono**, loaded from Google Fonts CDN in the HTML `<head>` (same family the real site uses via `next/font/google`, no local font files committed — see `src/lib/fonts.ts` in `innosoft-landing` if self-hosting is ever needed). No more system-font fallback as the only look.
 
-Consolidated after the 2026-09-17 premortem exercise (see `../../strategy/plan-crecimiento-2026-09.md`) — previously scattered between this page and session memory, now a permanent project rule, regardless of whether the image was made with the HTML/CSS templates here or with Canva:
+**Composition is chosen by message type, never a single reused shape.** Two archetypes built and in active use (more below under "Archetypes"); 4 more are designed but not yet built (no current post needs them — see the agent's full report, kept in this session's history, for archetypes C/D/F). **Rule: never run the same archetype twice in a row, and add an `"archetype"` field to each `calendar.json` entry** so this is enforceable, not just remembered.
 
-1. **Is the logo the real file, never a placeholder?** (see the logo rule above — never a CSS square or a generic icon).
-2. **Was the text contrast actually measured against any colored background, not just "it looks fine by eye"?** Hard color rule: **dark text `#2b0a0a` on the coral accent** (never white — white on coral measures ~2.7:1, fails WCAG; dark measures 6.2–10.3:1). On the dark brand background, white or gray ≥`#9a9a9a` (≥7:1). If a new accent is introduced, calculate the real contrast (don't assume it), not just eyeball it.
+**What's fixed as a direct consequence:**
+- The pill-button CTA and every emoji inside an image are gone — CTAs are now a plain text link in the accent color with an underline and a `→`, legible and honest about not being a real button.
+- The uppercase uppercase-tag-repeats-headline pattern is gone.
+- The zone was shown twice (badge + list) — now a single footer registry strip, `IBM Plex Mono`, real department names, never duplicated.
+- The logo now has a fixed brand-mark position (not vertically centered with other content, which could float it to odd positions) and uses `og-icon.png` (the isotype, has real alpha transparency, works on both light and dark surfaces) instead of `logo-header.png` on light backgrounds, since that file's wordmark is near-white and disappears on paper.
+
+**Canvas size is no longer one-size-fits-all across platforms (added after the user flagged this directly: "hay que considerar las dimensiones de cada red social").** Verified live 2026-10-01 (not assumed from memory, specs change):
+- **Facebook + Instagram feed (shared image): 1080×1350px (4:5).** Instagram changed its profile grid to a 3:4 crop in January 2026, so a square 1080×1080 image now loses content at the edges in-profile; 4:5 is the current real recommendation for both networks.
+- **LinkedIn feed: 1200×627px (1.91:1 landscape)** — a real different shape, not 4:5. Don't reuse an IG/FB asset for LinkedIn or vice versa.
+
+## Archetypes (composition patterns, pick by message type — not by which looks unused)
+
+1. **`archetype-a-cifra.html`** (Papel, 1080×1350) — a hard number is the actual news (a price, a volume, a count). The number itself is the biggest element on the page (IBM Plex Serif, ~220px), with supporting figures below as dotted-leader ticket rows (`label ........ amount`, like a real receipt) — never buried inside a small card under an abstract headline. **Always re-verify every figure against `catalog/productos-y-servicios.md` right before rendering** — a $22-vs-$32 pricing error already shipped once this way (see History).
+2. **`archetype-b-fecha.html`** (Tinta, 1080×1350) — a real date/deadline is the news (a regulatory change, a compliance window). Left column: the day number huge in Plex Serif + month/year stacked in coral, functioning like a wall calendar page. Right column: headline + one supporting paragraph + text-link CTA + footer. Consultative tone only — no red, no exclamation marks, this is a heads-up, not a threat (same lesson as the 2026-09-17 "amenazante" correction below, now structurally enforced by the surface choice, not just the words).
+3. **`archetype-e-indice.html`** (Violeta pleno, 1200×627 — **LinkedIn only, this is the 1.91:1 canvas**) — announcing a new service/offering. A short headline + a real numbered list (`01/02/03`) of concrete, catalog-real inclusions — never a vague slogan. This is what replaced the old pill-button "nuevo servicio" post.
+
+**Still pending, not yet built because no current post needs them** (do the design work for real when one does — don't reuse archetype A/B/E outside their intended message type just because they already exist):
+- **Archetype C ("pregunta")** — pure awareness/question posts, noche-violeta surface, headline-only poster, no subhead (subhead moves to the post's own caption text).
+- **Archetype D ("producto real")** — posts with an actual product screenshot. Rebuild `hero-con-captura.html`/`hero-con-captura-recorte-lateral.html` to drop the fake Mac browser-window chrome (3 dots) and the coral halo around the screenshot — both are generic-mockup tells — and let the screenshot bleed off the canvas edge instead of floating in a framed box.
+- **Archetype F ("territorio")** — paid/geo-targeted campaigns, a real outline of the 4 Zona Oriental departments instead of a 📍 badge. **Needs real geographic boundary data (e.g. geoBoundaries/OSM) with its license/attribution checked first** — not yet sourced, don't hand-draw or AI-generate a map outline as a substitute.
+
+## Brand tokens still in force for anything NOT yet migrated to an archetype above
+(`hero-con-captura.html`, `hero-con-captura-recorte-lateral.html`, and the original `tipografico-sin-captura.html` default — until archetypes C/D replace them)
+- Logo: `../logo-header.png` on dark backgrounds only (`<img src="../logo-header.png">`, ~52px tall) — never a CSS gradient square. On light/paper backgrounds use `../og-icon.png` instead (the wordmark in `logo-header.png` is near-white, invisible on paper).
+- Canvas size for anything using these legacy templates: still 1080×1080 until migrated — but prefer building the real archetype instead of a new 1080×1080 piece.
+- Old dark violet/teal backgrounds + lavender/coral accents: see git history of this file for the exact gradient strings if a legacy piece needs re-rendering as-is. **Don't use the teal variant for non-Couriera posts going forward** (it's Couriera's real brand color, not a generic "second background," per the correction above).
+
+## Mandatory QA checklist before publishing ANY image (updated 2026-10-01)
+
+Consolidated after the 2026-09-17 premortem exercise and the 2026-10-01 design review — permanent project rule regardless of whether the image came from these templates or from Canva:
+
+1. **Is the logo the real file, never a placeholder?** — `og-icon.png` on light surfaces, `logo-header.png` only on dark surfaces.
+2. **Was contrast actually measured for every text/background combo used, not just the ones already documented above?** If a new surface or accent is introduced, calculate the real WCAG ratio (don't eyeball it) — this already caught one real shipped failure (white on lavender, 2.10:1, see History).
 3. **Is there any zeroed-out data, empty field, or invented URL/figure/client?**
-4. **Does the image's copy match the post/ad's real copy?**
-5. **Was the image opened at full size (not just as a thumbnail) before calling it good?** (see `feedback_verify_images_full_size` in memory — a real customer reported 4 broken images that looked fine as thumbnails).
+4. **Does the image's copy match the post/ad's real copy, and was every specific number/date re-verified against its source right before rendering** (not just at drafting time)?
+5. **Was the image opened at full size (not just as a thumbnail) before calling it good?**
+6. **No emoji anywhere in the image**, and no fake button/pill UI control — CTAs are a text link.
+7. **Is any text smaller than ~36px on the 1080/1200-wide canvas?** (≈13px at real mobile feed width) — if so, it won't be legible in-feed; move it to the post's caption text instead or enlarge it.
+8. **Is this the same composition/archetype as the immediately preceding post?** If so, stop and pick a different one — never the same archetype twice in a row.
+9. **Is the canvas the right size for the actual destination platform(s)** — 1080×1350 for Facebook/Instagram, 1200×627 for LinkedIn — not a reused asset from the other shape?
 
-If anything fails on any of these 5 points, it doesn't get published — fix it and regenerate.
+If anything fails on any of these points, it doesn't get published — fix it and regenerate.
 
 ## Generating with Canva (alternative to the HTML/CSS templates, since 2026-09-17)
 
@@ -46,12 +76,12 @@ For pieces where the user explicitly asked for a "premium" level the HTML/CSS te
 6. `export-design` can fail with "Not allowed to access design" right after a commit (propagation delay) — retry without explicit `width`/`height` (native export) first.
 
 ## How to generate a new image (HTML/CSS templates)
-1. Copy the most suitable template, adjust headline/subheadline/CTA/zone to the post's real copy (never invent figures/clients — same rules as the copy, see `../../catalog/productos-y-servicios.md`).
-2. If it uses a screenshot: `node embed-image.js template.html ../2026-XX-XX-screenshot.png output.html`.
-3. Serve the HTML locally (e.g. a simple static server on a free port — `file://` doesn't work with the Chrome extension) and render at 1080×1080 with Playwright (`browser_resize` to 1080×1080 before every screenshot — the viewport doesn't persist across navigations) or with claude-in-chrome.
-4. **Review visually before calling it good:** is any data zeroed-out or half-configured? any invented URL or figure? text cut off at the edges? does the post's message match the image's? If anything fails, adjust the crop/copy and re-render — never publish with a known visual defect.
+1. Pick the archetype that matches the message type (see table above), not whichever file is already open. Adjust copy to the post's real text (never invent figures/clients — same rules as the copy, see `../../catalog/productos-y-servicios.md`) — **re-verify every number/date against its real source right before rendering**, don't trust what was drafted earlier in the conversation.
+2. If it uses a screenshot (archetype D): `node embed-image.js template.html ../2026-XX-XX-screenshot.png output.html`.
+3. Serve the HTML locally (a simple static server on a free port — `file://` doesn't work with Playwright/the Chrome extension) and render with Playwright (preferred — it's a separate browser, so it doesn't disturb whatever tab the user has open; `browser_resize` **before every screenshot**, the viewport doesn't persist across navigations) at the size that matches the real destination: **1080×1350 for Facebook/Instagram, 1200×627 for LinkedIn**.
+4. Run the full QA checklist above before calling it good — not just "does it look fine."
 5. Save the final PNG in `../` (the assets folder) named `YYYY-MM-DD-post-<slug>.png`, `git add/commit/push` from `assets/branding/`, verify with `curl -o /dev/null -w "%{http_code}"` that the raw URL returns 200.
-6. Update the corresponding post's `imageUrl` in `../../automation/scripts/calendar.json`.
+6. Update the corresponding post's `imageUrl` **and `archetype`** fields in `../../automation/scripts/calendar.json`.
 
 ## History
 - 2026-09-09: first generation — `2026-09-10-post-erp-dte.png` (ERP/DTE, real dashboard cropped to avoid showing "$0.00"), `2026-09-10-post-couriera.png` (value panel from Couriera's login screen, side crop), `2026-09-10-post-dte-educativo.png` (typographic, no screenshot — the real DTE invoice one showed "DTE: PENDING" and a list of missing configuration, unusable).
@@ -63,3 +93,4 @@ For pieces where the user explicitly asked for a "premium" level the HTML/CSS te
   3. *(the user said) "that box you put before InnoSoft feels too AI-generated"* — the `.logo-mark` (a CSS gradient square, no real logo) was replaced in all 3 templates with the real file `../logo-header.png`. Never use a placeholder there again, the real logo was always available in `assets/branding/`.
 - 2026-10-01: **second content batch (lote 2), 3 new images, all typographic (no screenshot adds value to any of these 3 stories):** `2026-10-01-post-precio-real.png` (first post ever to cite real pricing, $9.99/mo DTE-only — small price-card UI elements added inline in a one-off variant of `tipografico-sin-captura.html`, violet bg + coral accent), `2026-10-01-post-dte-plazo-dic2026.png` (real verified DTE 2.0 deadline, 1-dic-2026, with a date-badge element, teal bg + coral accent), `2026-10-01-post-diseno-web.png` (first post for the new website-design-and-hosting service, violet bg + lavender accent — more sober tone, matches LinkedIn placement). Rendered via Playwright (not claude-in-chrome) at exactly 1080×1080 to avoid disturbing the user's own open Chrome tab/window — see `project_auto_greeting_active`/`feedback_dont_close_shared_tabs` in persistent memory for why. The 3 one-off HTML files were deleted after rendering (not meant to be reused as base templates); only the final PNGs were committed. Full copy: `content-calendar/copy-final-lote2.md`.
 - 2026-10-01 (same day, before publishing): **real pricing error caught by the mandatory pre-publish review, requested by the user before post-8 could fire on its own.** `post-precio-real.png`'s "Sistema completo" price card said $22/mes — that's the ERP-only Starter price (no DTE); the plan that actually bundles DTE (what the post's own headline promises) is $32/mes (ERP_FE_STARTER, see `catalog/productos-y-servicios.md`). Re-rendered with the correct $32 and re-pushed (same filename, new commit) — the calendar.json message text for post-8/post-8-ig was fixed in the same pass. Lesson: a real, specific number is exactly the kind of claim that needs re-verifying against the source of truth before it ships, even when it was "approved" earlier in the drafting process — approval of the angle/copy draft isn't the same as approval of every digit in it.
+- 2026-10-01 (later same day): **full system redesign**, triggered by the user calling out the repeated-template problem directly ("parece generado por IA. Debes ser creativo") right as post-10 was about to be published. A real, concrete defect was found in the piece about to ship — white CTA text on the lavender gradient measured 2.10:1 contrast, a WCAG failure already live in `2026-10-01-post-diseno-web.png` — on top of the deeper compositional sameness problem. See the big section above ("system redesign: documento, no sección de hero") for the full new token/archetype system. `archetype-a-cifra.html`/`archetype-b-fecha.html`/`archetype-e-indice.html` replace the one-off variants used for post-8/post-9/post-10 — `post-precio-real.png`, `post-dte-plazo-dic2026.png`, and `post-diseno-web.png` were all re-rendered at their platform-correct sizes (1080×1350 / 1080×1350 / 1200×627) and re-pushed under the same filenames.
