@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html,body { width:1080px; height:1080px; overflow:hidden; }
+  body {
+    font-family: 'IBM Plex Sans', Arial, sans-serif;
+    background: #12151a;
+    color: #f3f3ef;
+    padding: 72px 64px 0;
+    display:flex;
+    flex-direction:column;
+  }
+  .topbar { display:flex; align-items:center; gap:14px; }
+  .topbar img { height:44px; width:44px; object-fit:contain; display:block; }
+  .wordmark { font-family:'IBM Plex Sans'; font-weight:700; font-size:28px; color:#f3f3ef; }
+  .kicker { font-family:'IBM Plex Mono'; font-weight:500; font-size:24px; color:#9a9fa8; margin-top: 40px; }
+  .headline { font-family:'IBM Plex Sans Condensed'; font-weight:700; font-size:58px; line-height:1.15; color:#f3f3ef; margin-top: 14px; max-width: 900px; }
+  .items { display:flex; flex-direction:column; gap:30px; margin-top: 44px; }
+  .item { display:flex; gap:24px; align-items:baseline; border-top: 1px solid rgba(243,243,239,.18); padding-top: 26px; }
+  .item:first-child { border-top: none; padding-top: 0; }
+  .item .num { font-family:'IBM Plex Mono'; font-weight:600; font-size:36px; color:#42be65; flex-shrink:0; width: 84px; }
+  .item .label { font-family:'IBM Plex Sans'; font-weight:500; font-size:34px; line-height:1.3; color:#f3f3ef; }
+  .item.blank .label-row { display:flex; align-items:baseline; gap:18px; flex:1; }
+  .blank-line { flex:1; max-width:380px; border-bottom: 3px solid #42be65; height:1px; }
+  .tag { font-family:'IBM Plex Sans'; font-weight:400; font-size:24px; color:#9a9fa8; white-space:nowrap; }
+  .answer { font-family:'IBM Plex Sans'; font-weight:500; font-size:30px; line-height:1.45; color:#f3f3ef; max-width: 880px; margin-top: 48px; }
+  .spacer { flex:1; min-height: 40px; }
+  .bottom { background:#1c2027; margin: 0 -64px; padding: 36px 64px; display:flex; align-items:center; justify-content:space-between; }
+  .cta { font-family:'IBM Plex Sans'; font-weight:600; font-size:32px; color:#42be65; text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 8px; }
+  .locations { font-family:'IBM Plex Mono'; font-weight:500; font-size:22px; color:#9a9fa8; text-align:right; }
+</style>
+</head>
+<body>
+  <div class="topbar">
+    <img src="../og-icon.png" alt="InnoSoft">
+    <div class="wordmark">InnoSoftSV</div>
+  </div>
+  <div class="kicker">nuevo servicio · soporte técnico remoto</div>
+  <div class="headline">¿A quién llamás cuando…</div>
+  <div class="items">
+    <div class="item">
+      <div class="num">01</div>
+      <div class="label">La impresora no conecta</div>
+    </div>
+    <div class="item">
+      <div class="num">02</div>
+      <div class="label">La red se cae</div>
+    </div>
+    <div class="item">
+      <div class="num">03</div>
+      <div class="label">La compu no enciende</div>
+    </div>
+    <div class="item blank">
+      <div class="num">04</div>
+      <div class="label-row">
+        <span class="blank-line"></span>
+        <span class="tag">¿el tuyo?</span>
+      </div>
+    </div>
+  </div>
+  <div class="answer">Soporte remoto real: resolución de problemas, mantenimiento básico y orientación — uses o no nuestros sistemas.</div>
+  <div class="spacer"></div>
+  <div class="bottom">
+    <div class="cta">Contanos en los comentarios ↓</div>
+    <div class="locations">San Miguel · La Unión<br>Usulután · Morazán</div>
+  </div>
+</body>
+</html>
